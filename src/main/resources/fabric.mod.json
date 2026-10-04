@@ -3,7 +3,7 @@
   "id": "signed32",
   "version": "${version}",
   "name": "signed32",
-  "description": " ​Shatters the vanilla 30M boundary to reach the absolute 32-bit integer limit (2,147,483,647) with comprehensive engine and rendering fixes.  ",
+  "description": " Shatters the vanilla 30M boundary to reach the absolute 32-bit integer limit (2,147,483,647) with comprehensive engine and rendering fixes.  ",
   "authors": [],
   "contact": {},
   "license": "GPL-3.0",
@@ -15,6 +15,9 @@
     ],
     "main": [
       "org.cloudandx.signed32.Signed32"
+    ],
+    "modmenu": [
+      "org.cloudandx.signed32.client.config.Signed32ModMenu"
     ]
   },
   "mixins": [
@@ -27,6 +30,7 @@
   "depends": {
     "fabricloader": ">=${loader_version}",
     "fabric-api": "*",
-    "minecraft": "${minecraft_version}"
+    "minecraft": "${minecraft_version}",
+    "cloth-config": ">=26.3.159"
   }
 }

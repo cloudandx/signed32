@@ -1,6 +1,7 @@
-package org.cloudandx.signed32.mixin.expand.border;
+package org.cloudandx.signed32.mixin.server.expand.border;
 
 import net.minecraft.world.level.border.WorldBorder;
+import org.cloudandx.signed32.config.Signed32Config;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.Unique;
@@ -21,11 +22,13 @@ public class WorldBorderMixin {
 
     @Inject(method = "<init>*", at = @At("RETURN"))
     private void OnInitA(CallbackInfo ci) {
-        setAbsoluteMaxSize(Integer.MAX_VALUE);
+        if (Signed32Config.INSTANCE.expandWorldBorder) {
+            setAbsoluteMaxSize(Integer.MAX_VALUE);
+        }
     }
 
     @ModifyConstant(method = "<init>(Lnet/minecraft/world/level/border/WorldBorder$Settings;)V", constant = @Constant(doubleValue = 5.9999968E7D))
     private double OnInitB(double value) {
-        return (double) (Integer.MAX_VALUE - 16) * 2.0;
+        return Signed32Config.INSTANCE.expandWorldBorder ? (double) (Integer.MAX_VALUE - 16) * 2.0 : value;
     }
 }

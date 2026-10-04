@@ -1,10 +1,12 @@
-package com.inf.farlands.util.maps;
+package org.cloudandx.signed32.util.maps;
 
-import com.inf.farlands.util.map.Long2ObjectStripedMap;
-import com.inf.farlands.util.pos.IntSectionPos;
+import org.cloudandx.signed32.util.map.Long2ObjectStripedMap;
+import org.cloudandx.signed32.util.pos.IntSectionPos;
 
-public class SectionUtil {
-    public static final Long2ObjectStripedMap<IntSectionPos> lookup = new Long2ObjectStripedMap<>(1 << 20);
+public final class SectionUtil {
+    private static final Long2ObjectStripedMap<IntSectionPos> lookup = new Long2ObjectStripedMap<>(1 << 20);
+
+    private SectionUtil() {}
 
     public static void put(long key, int x, int y, int z) {
         IntSectionPos prev = lookup.get(key);
@@ -31,7 +33,6 @@ public class SectionUtil {
         return lookup.size();
     }
 
-    /** 客户端卸关卡时清空。 */
     public static void clearAll() {
         lookup.clear();
     }

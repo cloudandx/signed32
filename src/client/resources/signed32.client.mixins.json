@@ -1,7 +1,7 @@
 {
   "required": true,
   "minVersion": "0.8",
-  "package": "org.cloudandx.signed32.mixin.client",
+  "package": "org.cloudandx.signed32.client.mixin",
   "compatibilityLevel": "JAVA_25",
   "client": [
   ],
@@ -10,5 +10,30 @@
   },
   "overwrites": {
     "requireAnnotations": true
-  }
+  },
+  "mixins": [
+    "client.expand.ClientLevelMixin",
+    "client.expand.LightDebugRendererMixin",
+    "client.fix.render.EntityRendererMixin",
+    "client.fix.render.LevelExtractorMixin",
+    "client.fix.render.RenderSectionRegionMixin",
+    "client.fix.render.SectionRenderDispatcher$RenderSectionMixin",
+    "client.fix.sound.BeeSoundInstanceMixin",
+    "client.fix.sound.ElytraOnPlayerSoundInstanceMixin",
+    "client.fix.sound.EntityBoundSoundInstanceMixin",
+    "client.fix.sound.GuardianAttackSoundInstanceMixin",
+    "client.fix.sound.ListenerMixin",
+    "client.fix.sound.MinecartSoundInstanceMixin",
+    "client.fix.sound.SnifferSoundInstanceMixin",
+    "client.fix.sound.SoundEngineMixin",
+    "client.misc.CameraMixin",
+    "client.misc.F3DisplayMixin",
+    "client.misc.EntityRenderDispatcherMixin",
+    "client.misc.ModelBlockRendererMixin",
+    "client.render.OctreeBranchMixin",
+    "client.render.OctreeMixin",
+    "client.render.SectionCopyMixin",
+    "client.render.SectionOcclusionGraphMixin",
+    "client.render.ViewAreaMixin"
+  ]
 }

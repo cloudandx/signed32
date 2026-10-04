@@ -1,4 +1,4 @@
-package org.cloudandx.signed32.mixin.expand;
+package org.cloudandx.signed32.mixin.server.expand;
 
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
@@ -10,9 +10,6 @@ import org.cloudandx.signed32.util.maps.AquiferUtil;
 import org.cloudandx.signed32.util.pos.AquiferPos;
 import org.cloudandx.signed32.util.pos.IntBlockPos;
 
-/**
- * Aquifer.NoiseBasedAquifer 3int 適配。
- */
 @Mixin(Aquifer.NoiseBasedAquifer.class)
 public abstract class Aquifer$NoiseBasedAquiferMixin {
 

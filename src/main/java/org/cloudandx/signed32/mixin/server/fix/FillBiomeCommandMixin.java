@@ -1,4 +1,4 @@
-package org.cloudandx.signed32.mixin.fix;
+package org.cloudandx.signed32.mixin.server.fix;
 
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
 import com.mojang.brigadier.exceptions.Dynamic2CommandExceptionType;

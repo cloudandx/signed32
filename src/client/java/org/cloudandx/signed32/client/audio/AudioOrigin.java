@@ -1,4 +1,4 @@
-package com.inf.farlands.client.audio;
+package org.cloudandx.signed32.client.audio;
 
 import net.minecraft.world.phys.Vec3;
 

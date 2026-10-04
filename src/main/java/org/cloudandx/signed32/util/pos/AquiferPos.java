@@ -1,7 +1,7 @@
-package com.inf.farlands.util.pos;
+package org.cloudandx.signed32.util.pos;
 
 /**
- * Aquifer 专用位置载体，含 lastAccess TTL 保活。
+ * Aquifer 專用位置載體，含 lastAccess TTL 保活。
  */
 public class AquiferPos {
     public final int x, y, z;

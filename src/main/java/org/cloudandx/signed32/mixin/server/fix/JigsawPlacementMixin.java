@@ -1,4 +1,4 @@
-package org.cloudandx.signed32.mixin.fix;
+package org.cloudandx.signed32.mixin.server.fix;
 
 import com.google.common.collect.Lists;
 

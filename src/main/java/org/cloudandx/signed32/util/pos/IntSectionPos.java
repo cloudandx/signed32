@@ -1,11 +1,10 @@
-package com.inf.farlands.util.pos;
+package org.cloudandx.signed32.util.pos;
 
 import net.minecraft.core.SectionPos;
+import org.cloudandx.signed32.util.maps.Common;
+import org.cloudandx.signed32.util.maps.SectionUtil;
 
-import com.inf.farlands.FarlandsTick;
-import com.inf.farlands.util.maps.SectionUtil;
-
-public class IntSectionPos {
+public class IntSectionPos implements Comparable<IntSectionPos> {
     public final int x, y, z;
     public volatile long lastAccess;
 
@@ -35,15 +34,12 @@ public class IntSectionPos {
         return z << 4;
     }
 
+    @Override
     public int compareTo(IntSectionPos o) {
         int c = Integer.compare(this.x, o.x);
-        if (c != 0) {
-            return c;
-        }
+        if (c != 0) return c;
         c = Integer.compare(this.y, o.y);
-        if (c != 0) {
-            return c;
-        }
+        if (c != 0) return c;
         return Integer.compare(this.z, o.z);
     }
 
@@ -54,9 +50,29 @@ public class IntSectionPos {
     public static IntSectionPos getSectionPos(long key) {
         IntSectionPos sp = SectionUtil.get(key);
         if (sp != null) {
-            sp.lastAccess = FarlandsTick.getNow();
+            sp.lastAccess = Common.getTick();
             return sp;
         }
         return new IntSectionPos(SectionPos.x(key), SectionPos.y(key), SectionPos.z(key));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof IntSectionPos that)) return false;
+        return x == that.x && y == that.y && z == that.z;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = x;
+        result = 31 * result + y;
+        result = 31 * result + z;
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "IntSectionPos[" + x + ", " + y + ", " + z + "]";
     }
 }

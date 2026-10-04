@@ -1,4 +1,4 @@
-package org.cloudandx.signed32.mixin.fix;
+package org.cloudandx.signed32.mixin.server.fix;
 
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;

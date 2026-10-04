@@ -1,6 +1,7 @@
-package org.cloudandx.signed32.mixin.expand.border;
+package org.cloudandx.signed32.mixin.server.expand.border;
 
 import net.minecraft.server.network.ServerGamePacketListenerImpl;
+import org.cloudandx.signed32.config.Signed32Config;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Constant;
@@ -12,16 +13,18 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public class ServerGamePacketListenerImplMixin {
     @Inject(method = "clampHorizontal", at = @At("HEAD"), cancellable = true)
     private static void clampHorizontal(double value, CallbackInfoReturnable<Double> cir) {
-        cir.setReturnValue(value);
+        if (Signed32Config.INSTANCE.expandWorldBorder) {
+            cir.setReturnValue(value);
+        }
     }
 
     @ModifyConstant(method = "clampVertical", constant = @Constant(doubleValue = 2.0E7D))
     private static double maxVerticalClamp(double original) {
-        return (double) Integer.MAX_VALUE;
+        return Signed32Config.INSTANCE.expandWorldBorder ? (double) Integer.MAX_VALUE : original;
     }
 
     @ModifyConstant(method = "clampVertical", constant = @Constant(doubleValue = -2.0E7D))
     private static double minVerticalClamp(double original) {
-        return (double) -Integer.MAX_VALUE;
+        return Signed32Config.INSTANCE.expandWorldBorder ? (double) -Integer.MAX_VALUE : original;
     }
 }

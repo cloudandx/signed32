@@ -1,9 +1,8 @@
-package com.inf.farlands.util.pos;
-
-import com.inf.farlands.util.maps.BlockUtil;
+package org.cloudandx.signed32.util.pos;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
+import org.cloudandx.signed32.util.maps.BlockUtil;
 
 public class IntBlockPos {
     public final int x, y, z;
@@ -32,5 +31,25 @@ public class IntBlockPos {
             return bp;
         }
         return new IntBlockPos(BlockPos.getX(key), BlockPos.getY(key), BlockPos.getZ(key));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof IntBlockPos that)) return false;
+        return x == that.x && y == that.y && z == that.z;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = x;
+        result = 31 * result + y;
+        result = 31 * result + z;
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "IntBlockPos[" + x + ", " + y + ", " + z + "]";
     }
 }

@@ -1,4 +1,4 @@
-package org.cloudandx.signed32.mixin.fix;
+package org.cloudandx.signed32.mixin.server.fix;
 
 import net.minecraft.world.level.levelgen.structure.pieces.StructurePiecesBuilder;
 import org.spongepowered.asm.mixin.Mixin;

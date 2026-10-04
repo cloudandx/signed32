@@ -15,15 +15,37 @@ public class Signed32Config {
 
     public static Signed32Config INSTANCE = new Signed32Config();
 
-    // === 設定選項 ===
-    public boolean cameraJitter = true;      // 攝影機視角抖動
-    public boolean entityJitter = true;      // 生物與實體渲染吸附抖動
-    public boolean blockTearing = true;      // 紅石粉與方塊模型幾何撕裂
-    public int jitterThreshold = 12550821;   // 觸發起始座標（預設 Beta 遠方之地距離）
+    // === 分類 1：世界與邊界生成 (World & Generation) ===
+    public boolean expandWorldBorder = true;
+    public boolean fixChunkOverflow = true;
+    public boolean farLandsNoise = true;
 
-    /**
-     * 從 signed32.json 讀取設定，若檔案不存在則自動建立預設值
-     */
+    // 雙階段門檻
+    public int farLandsThreshold = 12550821;              // 邊境之地門檻 (預設 1255 萬)
+    public int fartherLandsThreshold = 1004065920;        // 遙遠之地門檻 (預設 10.04 億)
+
+    // 多維度支援 (Dimension Support)
+    public boolean netherFarLands = true;                 // 啟用下界邊境之地
+    public boolean endFarLands = true;                    // 啟用終界邊境之地
+    public boolean netherCoordinateScaling = true;        // 下界門檻是否自動除以 8 (讓 156 萬主世界傳送門可直達)
+
+    // 角部地貌增強 (Corner Far Lands)
+    public boolean cornerLandsEnhanced = true;            // 啟用角部迴圈天柱與棋盤格天柱矩陣
+
+    // === 分類 2：極限座標與儲存 (Coordinates & Storage) ===
+    public boolean expandBlockPos = true;
+    public boolean expandSectionPos = true;
+    public boolean expandEntitySections = true;
+
+    // === 分類 3：網路協定與相容性 (Network & Compatibility) ===
+    public boolean extendedBlockPosProtocol = false;
+
+    // === 分類 4：遠方之地視覺效果 (Visual Artifacts) ===
+    public boolean cameraJitter = false;
+    public boolean entityJitter = false;
+    public boolean blockTearing = false;
+    public int jitterThreshold = 0;
+
     public static void load() {
         if (!Files.exists(CONFIG_PATH)) {
             save();
@@ -40,9 +62,6 @@ public class Signed32Config {
         }
     }
 
-    /**
-     * 儲存設定至 signed32.json
-     */
     public static void save() {
         try {
             Files.createDirectories(CONFIG_PATH.getParent());

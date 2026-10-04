@@ -1,4 +1,4 @@
-package org.cloudandx.signed32.mixin.fix;
+package org.cloudandx.signed32.mixin.server.fix;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.QuartPos;

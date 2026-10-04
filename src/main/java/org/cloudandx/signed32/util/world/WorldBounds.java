@@ -1,29 +1,29 @@
-package com.inf.farlands.util.world;
-
-import com.inf.farlands.FarlandsConfig;
-import com.inf.farlands.FarlandsConstant;
+package org.cloudandx.signed32.util.world;
 
 /**
- * 边界统一语义。
+ * Signed32 邊界與空間常數統一規範。
  */
 public final class WorldBounds {
-    private WorldBounds() {
-    }
+    private WorldBounds() {}
 
-    /** 正方向最后一个可玩方块 = 2,147,483,631 = 2^31-17。 */
-    public static final int MAX_PLAYABLE_BLOCK = FarlandsConstant.MAX_PLAYABLE_BLOCK;
+    /** 正方向最後一個可玩方塊 = 2,147,483,631 = 2^31 - 17 */
+    public static final int MAX_PLAYABLE_BLOCK = 2_147_483_631;
+    /** 負方向最後一個可玩方塊 = -2,147,483,632 */
+    public static final int MIN_PLAYABLE_BLOCK = ~MAX_PLAYABLE_BLOCK;
 
-    public static final int MIN_PLAYABLE_BLOCK = ~FarlandsConstant.MAX_PLAYABLE_BLOCK;
+    /** 正方向最後一個可表示區段 = 134,217,727 = 2^27 - 1 */
+    public static final int MAX_SECTION = (1 << 27) - 1;
+    /** 負方向最後一個可表示區段 = -134,217,728 = -2^27 */
+    public static final int MIN_SECTION = -(1 << 27);
 
-    /** 正方向最后一个可表示段 = 134,217,727 = 2^27-1，段号为 sy。 */
-    public static final int MAX_SECTION = FarlandsConstant.MAX_SECTION;
+    /** 正方向最後一個可玩區段 = 134,217,726 = 2^27 - 2 */
+    public static final int MAX_PLAYABLE_SECTION = (1 << 27) - 2;
+    /** 負方向最後一個可玩區段 = -134,217,727 */
+    public static final int MIN_PLAYABLE_SECTION = ~MAX_PLAYABLE_SECTION;
 
-    public static final int MIN_SECTION = FarlandsConstant.MIN_SECTION;
-
-    /** 正方向最后一个可玩段 = 134,217,726 = 2^27-2。 */
-    public static final int MAX_PLAYABLE_SECTION = FarlandsConstant.MAX_PLAYABLE_SECTION;
-
-    public static final int MIN_PLAYABLE_SECTION = ~FarlandsConstant.MAX_PLAYABLE_SECTION;
+    /** 主世界預設建築高度範圍 */
+    public static final int DEFAULT_MIN_Y = -64;
+    public static final int DEFAULT_MAX_Y = 320;
 
     public static boolean inBlock(int v) {
         return v >= MIN_PLAYABLE_BLOCK && v <= MAX_PLAYABLE_BLOCK;
@@ -41,18 +41,10 @@ public final class WorldBounds {
         return inBlock(x) && inBlock(z);
     }
 
-    /**
-     * 段号是否在可玩段范围内。判据与 inChunk 同值，量纲不同：本方法吃段号 sy，
-     * inChunk 吃区块 xz。
-     */
     public static boolean inSection(int sy) {
         return sy >= MIN_PLAYABLE_SECTION && sy <= MAX_PLAYABLE_SECTION;
     }
 
-    /**
-     * 段号是否在可表示段范围内，即段内方块左移四位后不越过 int。比可玩段两端各宽一段，
-     * 那两段的方块全部在可玩方块范围之外。
-     */
     public static boolean inSectionAbsolute(int sy) {
         return sy >= MIN_SECTION && sy <= MAX_SECTION;
     }
@@ -66,15 +58,12 @@ public final class WorldBounds {
     }
 
     public static boolean inBuildHeight(int y) {
-        return y >= FarlandsConfig.worldGenMinY && y < FarlandsConfig.worldGenMaxY;
+        return y >= DEFAULT_MIN_Y && y < DEFAULT_MAX_Y;
     }
 
-    /** 范围 [minY, maxY) 是否完全在可玩高度内，沿用 hasChunksAt 语义。 */
     public static boolean inBuildHeightRange(int minY, int maxY) {
-        return minY >= FarlandsConfig.worldGenMinY && maxY < FarlandsConfig.worldGenMaxY;
+        return minY >= DEFAULT_MIN_Y && maxY < DEFAULT_MAX_Y;
     }
-
-    // clamp 含边界，永不落缓冲带
 
     public static int clampBlockCoord(int v) {
         return v > MAX_PLAYABLE_BLOCK ? MAX_PLAYABLE_BLOCK

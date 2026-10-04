@@ -1,6 +1,7 @@
-package org.cloudandx.signed32.mixin.expand.border;
+package org.cloudandx.signed32.mixin.server.expand.border;
 
 import net.minecraft.server.dedicated.DedicatedServerProperties;
+import org.cloudandx.signed32.config.Signed32Config;
 import org.spongepowered.asm.mixin.*;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -21,6 +22,8 @@ public class DedicatedServerPropertiesMixin {
 
     @Inject(method = "<init>", at = @At("RETURN"))
     private void OnInit(CallbackInfo ci) {
-        this.setMaxWorldSize(Integer.MAX_VALUE - 16);
+        if (Signed32Config.INSTANCE.expandWorldBorder) {
+            this.setMaxWorldSize(Integer.MAX_VALUE - 16);
+        }
     }
 }
