@@ -12,14 +12,6 @@
   "text.config.signed32.option.farLandsThreshold.tooltip": "从此坐标开始产生经典 Beta 边境之地巨墙 (默认 12,550,821)。",
   "text.config.signed32.option.fartherLandsThreshold": "遥远之地生成距离 (Farther Lands)",
   "text.config.signed32.option.fartherLandsThreshold.tooltip": "从此坐标开始触发选择器噪声溢位，生成巨大实心条带与虚空裂隙 (默认 1,004,065,920)。",
-  "text.config.signed32.option.netherFarLands": "下界边境之地 (Nether Far Lands)",
-  "text.config.signed32.option.netherFarLands.tooltip": "是否在下界生成贯穿基岩天幕的下界岩穿孔天墙与岩浆巨瀑。",
-  "text.config.signed32.option.netherCoordinateScaling": "下界 8:1 坐标换算",
-  "text.config.signed32.option.netherCoordinateScaling.tooltip": "若开启，下界门槛自动除以 8 (约 156 万格)，使主世界传送门可直通下界边境之地。",
-  "text.config.signed32.option.endFarLands": "末地边境之地 (End Far Lands)",
-  "text.config.signed32.option.endFarLands.tooltip": "是否在末地外岛将末地石撕裂为横跨虚空的环状石带与巨柱。",
-  "text.config.signed32.option.cornerLandsEnhanced": "角部地貌特殊化 (Corner Lands)",
-  "text.config.signed32.option.cornerLandsEnhanced.tooltip": "当 X 与 Z 同时达到门槛时，生成回路天柱 (Loop Far Lands) 与棋盘格巨柱阵列。",
 
 
   "text.config.signed32.category.pos": "极限坐标与存储系统",

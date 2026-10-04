@@ -71,42 +71,6 @@ public class Signed32ConfigScreen {
                 .setSaveConsumer(val -> config.fartherLandsThreshold = val)
                 .build());
 
-        // 下界邊境之地開關
-        worldCategory.addEntry(entryBuilder.startBooleanToggle(
-                        Component.translatable("text.config.signed32.option.netherFarLands"),
-                        config.netherFarLands)
-                .setDefaultValue(true)
-                .setTooltip(Component.translatable("text.config.signed32.option.netherFarLands.tooltip"))
-                .setSaveConsumer(val -> config.netherFarLands = val)
-                .build());
-
-        // 下界座標除以 8 換算開關
-        worldCategory.addEntry(entryBuilder.startBooleanToggle(
-                        Component.translatable("text.config.signed32.option.netherCoordinateScaling"),
-                        config.netherCoordinateScaling)
-                .setDefaultValue(true)
-                .setTooltip(Component.translatable("text.config.signed32.option.netherCoordinateScaling.tooltip"))
-                .setSaveConsumer(val -> config.netherCoordinateScaling = val)
-                .build());
-
-        // 終界邊境之地開關
-        worldCategory.addEntry(entryBuilder.startBooleanToggle(
-                        Component.translatable("text.config.signed32.option.endFarLands"),
-                        config.endFarLands)
-                .setDefaultValue(true)
-                .setTooltip(Component.translatable("text.config.signed32.option.endFarLands.tooltip"))
-                .setSaveConsumer(val -> config.endFarLands = val)
-                .build());
-
-        // 角部地貌增強開關
-        worldCategory.addEntry(entryBuilder.startBooleanToggle(
-                        Component.translatable("text.config.signed32.option.cornerLandsEnhanced"),
-                        config.cornerLandsEnhanced)
-                .setDefaultValue(true)
-                .setTooltip(Component.translatable("text.config.signed32.option.cornerLandsEnhanced.tooltip"))
-                .setSaveConsumer(val -> config.cornerLandsEnhanced = val)
-                .build());
-
 
         // -------------------------------------------------------------
         // 分類 2：極限座標與儲存 (Coordinates & Storage)

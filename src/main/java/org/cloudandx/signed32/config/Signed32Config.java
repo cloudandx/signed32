@@ -24,14 +24,6 @@ public class Signed32Config {
     public int farLandsThreshold = 12550821;              // 邊境之地門檻 (預設 1255 萬)
     public int fartherLandsThreshold = 1004065920;        // 遙遠之地門檻 (預設 10.04 億)
 
-    // 多維度支援 (Dimension Support)
-    public boolean netherFarLands = true;                 // 啟用下界邊境之地
-    public boolean endFarLands = true;                    // 啟用終界邊境之地
-    public boolean netherCoordinateScaling = true;        // 下界門檻是否自動除以 8 (讓 156 萬主世界傳送門可直達)
-
-    // 角部地貌增強 (Corner Far Lands)
-    public boolean cornerLandsEnhanced = true;            // 啟用角部迴圈天柱與棋盤格天柱矩陣
-
     // === 分類 2：極限座標與儲存 (Coordinates & Storage) ===
     public boolean expandBlockPos = true;
     public boolean expandSectionPos = true;

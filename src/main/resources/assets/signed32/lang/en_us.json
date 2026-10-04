@@ -12,15 +12,6 @@
   "text.config.signed32.option.farLandsThreshold.tooltip": "Coordinate threshold where the Far Lands wall begins to emerge (Default: 12,550,821).",
   "text.config.signed32.option.fartherLandsThreshold": "Farther Lands Distance",
   "text.config.signed32.option.fartherLandsThreshold.tooltip": "Coordinate threshold where the Farther Lands (Selector Noise overflow) begins to generate (Default: 1,004,065,920).",
-  "text.config.signed32.option.netherFarLands": "Nether Far Lands",
-  "text.config.signed32.option.netherFarLands.tooltip": "Whether to generate Netherrack Swiss-cheese walls and colossal lava falls piercing through the bedrock ceiling in the Nether.",
-  "text.config.signed32.option.netherCoordinateScaling": "Nether 8:1 Coordinate Scaling",
-  "text.config.signed32.option.netherCoordinateScaling.tooltip": "When enabled, Nether thresholds are divided by 8 (~1.56M blocks), allowing Overworld portals to connect directly to Nether Far Lands.",
-  "text.config.signed32.option.endFarLands": "End Far Lands",
-  "text.config.signed32.option.endFarLands.tooltip": "Whether to tear outer End islands into colossal floating End Stone rings and monolithic pillars across the void.",
-  "text.config.signed32.option.cornerLandsEnhanced": "Corner Lands Enhancement",
-  "text.config.signed32.option.cornerLandsEnhanced.tooltip": "When both X and Z exceed thresholds simultaneously, generates Loop Far Lands pillars and checkerboard monolith grids.",
-
 
   "text.config.signed32.category.pos": "Coordinates & Storage",
   "text.config.signed32.option.expandBlockPos": "32-Bit BlockPos Hash Storage",

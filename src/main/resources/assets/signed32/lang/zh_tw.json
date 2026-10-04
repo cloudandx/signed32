@@ -12,15 +12,6 @@
   "text.config.signed32.option.farLandsThreshold.tooltip": "從此座標開始產生 Beta 遠方之地巨牆 (預設 12,550,821)。",
   "text.config.signed32.option.fartherLandsThreshold": "遙遠之地生成距離 (Farther Lands)",
   "text.config.signed32.option.fartherLandsThreshold.tooltip": "從此座標開始觸發選擇器噪聲溢位，生成巨大實心條帶與真空巨縫 (預設 1,004,065,920)。",
-  "text.config.signed32.option.netherFarLands": "下界邊境之地 (Nether Far Lands)",
-  "text.config.signed32.option.netherFarLands.tooltip": "是否在下界生成貫穿基岩天幕的地獄石穿孔天牆與岩漿巨瀑。",
-  "text.config.signed32.option.netherCoordinateScaling": "下界 8:1 座標換算",
-  "text.config.signed32.option.netherCoordinateScaling.tooltip": "若開啟，下界門檻自動除以 8 (約 156 萬格)，讓主世界傳送門可直通下界邊境之地。",
-  "text.config.signed32.option.endFarLands": "終界邊境之地 (End Far Lands)",
-  "text.config.signed32.option.endFarLands.tooltip": "是否在終界外島將終界石撕裂為橫跨虛空的環狀石帶與巨柱。",
-  "text.config.signed32.option.cornerLandsEnhanced": "角部地貌特殊化 (Corner Lands)",
-  "text.config.signed32.option.cornerLandsEnhanced.tooltip": "當 X 與 Z 同時達到門檻時，生成迴圈天柱 (Loop Far Lands) 與棋盤格天柱陣列。",
-
 
   "text.config.signed32.category.pos": "極限座標與儲存系統",
   "text.config.signed32.option.expandBlockPos": "32 位元方塊座標雜湊系統 (BlockPos)",

@@ -12,16 +12,6 @@
   "text.config.signed32.option.farLandsThreshold.tooltip": "由呢個座標開始產生經典嘅 Beta 遠方之地巨牆 (預設 12,550,821 格)。",
   "text.config.signed32.option.fartherLandsThreshold": "遙遠之地生成距離 (Farther Lands)",
   "text.config.signed32.option.fartherLandsThreshold.tooltip": "由呢個座標開始爆選擇器噪聲溢位，形成巨型實心條帶同虛空裂縫 (預設 1,004,065,920 格)。",
-  "text.config.signed32.option.netherFarLands": "地獄邊境之地 (Nether Far Lands)",
-  "text.config.signed32.option.netherFarLands.tooltip": "係咪喺地獄生成貫穿基岩天幕嘅地獄石穿孔天牆同岩漿巨瀑。",
-  "text.config.signed32.option.netherCoordinateScaling": "地獄 8:1 座標換算",
-  "text.config.signed32.option.netherCoordinateScaling.tooltip": "如果開咗，地獄門檻會自動除以 8 (約 156 萬格)，令主世界傳送門可以直接駁通地獄邊境。",
-  "text.config.signed32.option.endFarLands": "終界邊境之地 (End Far Lands)",
-  "text.config.signed32.option.endFarLands.tooltip": "係咪喺終界外島將終界石撕裂做橫跨虛空嘅環狀石帶同巨柱。",
-  "text.config.signed32.option.cornerLandsEnhanced": "角部地貌特殊化 (Corner Lands)",
-  "text.config.signed32.option.cornerLandsEnhanced.tooltip": "當 X 同 Z 同時達標嗰陣，生成迴圈天柱 (Loop Far Lands) 同棋盤格巨柱陣列。",
-
-
   "text.config.signed32.category.pos": "極限座標與儲存系統",
   "text.config.signed32.option.expandBlockPos": "32-bit 方塊座標 Hash 系統 (BlockPos)",
   "text.config.signed32.option.expandBlockPos.tooltip": "突破原版 64-bit long 嘅 ±33.5M 方塊封裝限制，改用記憶體雜湊表儲存極限座標。",
