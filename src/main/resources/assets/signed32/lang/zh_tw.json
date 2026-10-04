@@ -1,0 +1,35 @@
+{
+  "text.config.signed32.title": "Signed32 設定",
+
+  "text.config.signed32.category.border": "世界邊界擴展",
+  "text.config.signed32.option.expandWorldBorder": "擴展世界邊界 (Expand Border)",
+  "text.config.signed32.option.expandWorldBorder.tooltip": "解除遊戲原版 ±30,000,000 的邊界限制，允許玩家與實體移動至 32 位元整數極限 (±21.4 億)。",
+  "text.config.signed32.option.fixChunkOverflow": "修復 33,554,432 區塊溢位崩潰",
+  "text.config.signed32.option.fixChunkOverflow.tooltip": "防止區塊座標轉為方塊座標時發生 32 位元整數溢位，並解除原版區塊有效性限制。",
+  "text.config.signed32.option.farLandsNoise": "遠方之地地形 (Far Lands)",
+  "text.config.signed32.option.farLandsNoise.tooltip": "移植 Beta 1.7.3 的噪聲溢位，在 1255 萬格之外生成直衝天花板的巨牆與乳酪空洞地形。",
+  "text.config.signed32.option.farLandsThreshold": "遠方之地生成距離",
+  "text.config.signed32.option.farLandsThreshold.tooltip": "從此座標開始產生 Beta 遠方之地巨牆 (預設 12,550,821)。",
+
+  "text.config.signed32.category.pos": "極限座標與儲存系統",
+  "text.config.signed32.option.expandBlockPos": "32 位元方塊座標雜湊系統 (BlockPos)",
+  "text.config.signed32.option.expandBlockPos.tooltip": "突破原版 64 位元 long 的 ±33,554,432 方塊封裝限制，改以記憶體雜湊快取存儲全範圍整數座標。",
+  "text.config.signed32.option.expandSectionPos": "32 位元區段座標系統 (SectionPos)",
+  "text.config.signed32.option.expandSectionPos.tooltip": "突破原版 SectionPos 的 22 位元限制，使超過 33.5M 的區段資料能正常定址。",
+  "text.config.signed32.option.expandEntitySections": "實體區段儲存擴展 (Entity Sections)",
+  "text.config.signed32.option.expandEntitySections.tooltip": "配合區段雜湊架構重構實體查找索引，防止遠距離實體丟失或檢索時發生崩潰。",
+
+  "text.config.signed32.category.network": "網路協定相容性",
+  "text.config.signed32.option.extendedBlockPosProtocol": "32 位元方塊/聲音網路協定 (Extended Protocol)",
+  "text.config.signed32.option.extendedBlockPosProtocol.tooltip": "⚠️ 兩端皆須安裝此模組。若要加入一般伺服器 (Purpur/Paper/原版)，請務必關閉此項。",
+
+  "text.config.signed32.category.visual": "遠方之地視覺特性",
+  "text.config.signed32.option.cameraJitter": "視角抖動 (Camera Jitter)",
+  "text.config.signed32.option.cameraJitter.tooltip": "將攝影機座標降級為單精度浮點數，重現階梯式視角抽搐。",
+  "text.config.signed32.option.entityJitter": "生物抖動 (Entity Jitter)",
+  "text.config.signed32.option.entityJitter.tooltip": "將生物與實體渲染位置吸附至單精度網格，與世界同步抽搐。",
+  "text.config.signed32.option.blockTearing": "模型幾何撕裂 (Block Tearing)",
+  "text.config.signed32.option.blockTearing.tooltip": "重現紅石粉、火把、鐵軌等小於 1 格的模型頂點拉扯與撕裂現象。",
+  "text.config.signed32.option.jitterThreshold": "觸發距離閾值",
+  "text.config.signed32.option.jitterThreshold.tooltip": "當絕對座標超過此數值時開始產生視覺效果 (預設 12,550,821)。"
+}

@@ -1,0 +1,35 @@
+{
+  "text.config.signed32.title": "Signed32 设置",
+
+  "text.config.signed32.category.border": "世界边界扩展",
+  "text.config.signed32.option.expandWorldBorder": "扩展世界边界 (Expand Border)",
+  "text.config.signed32.option.expandWorldBorder.tooltip": "解除游戏原版 ±30,000,000 的边界限制，允许玩家与实体移动至 32 位整数极限 (±21.4 亿)。",
+  "text.config.signed32.option.fixChunkOverflow": "修复 33,554,432 区块溢出崩溃",
+  "text.config.signed32.option.fixChunkOverflow.tooltip": "防止区块坐标转换为方块坐标时发生 32 位整数溢出，并解除原版区块有效性限制。",
+  "text.config.signed32.option.farLandsNoise": "远方之地地形 (Far Lands)",
+  "text.config.signed32.option.farLandsNoise.tooltip": "移植 Beta 1.7.3 的噪声溢位，在 1255 万格之外生成直冲天花板的巨墙与乳酪空洞地形。",
+  "text.config.signed32.option.farLandsThreshold": "远方之地生成距离",
+  "text.config.signed32.option.farLandsThreshold.tooltip": "从此座标开始产生 Beta 远方之地巨墙 (预设 12,550,821)。",
+
+  "text.config.signed32.category.pos": "极限坐标与存储系统",
+  "text.config.signed32.option.expandBlockPos": "32 位方块坐标哈希系统 (BlockPos)",
+  "text.config.signed32.option.expandBlockPos.tooltip": "突破原版 64 位 long 的 ±33,554,432 方块压缩限制，改用内存哈希缓存存储全范围整数坐标。",
+  "text.config.signed32.option.expandSectionPos": "32 位区段坐标系统 (SectionPos)",
+  "text.config.signed32.option.expandSectionPos.tooltip": "突破原版 SectionPos 的 22 位限制，使超过 33.5M 的区段数据能正常寻址。",
+  "text.config.signed32.option.expandEntitySections": "实体区段存储扩展 (Entity Sections)",
+  "text.config.signed32.option.expandEntitySections.tooltip": "配合区段哈希架构重构实体查找索引，防止远距离实体丢失或检索时发生崩溃。",
+
+  "text.config.signed32.category.network": "网络协议兼容性",
+  "text.config.signed32.option.extendedBlockPosProtocol": "32 位方块/声音网络协议 (Extended Protocol)",
+  "text.config.signed32.option.extendedBlockPosProtocol.tooltip": "⚠️ 两端皆须安装此模组。若要加入常规服务器 (Purpur/Paper/原版)，请务必关闭此项。",
+
+  "text.config.signed32.category.visual": "边境之地视觉特性",
+  "text.config.signed32.option.cameraJitter": "视角抖动 (Camera Jitter)",
+  "text.config.signed32.option.cameraJitter.tooltip": "将摄像机坐标降级为单精度浮点数，重现阶梯式视角抽搐。",
+  "text.config.signed32.option.entityJitter": "生物抖动 (Entity Jitter)",
+  "text.config.signed32.option.entityJitter.tooltip": "将生物与实体渲染吸附至单精度网格，与世界同步抽搐。",
+  "text.config.signed32.option.blockTearing": "模型几何撕裂 (Block Tearing)",
+  "text.config.signed32.option.blockTearing.tooltip": "重现红石线、火把、铁轨等非完整方块模型的顶点拉扯与撕裂现象。",
+  "text.config.signed32.option.jitterThreshold": "触发距离阈值",
+  "text.config.signed32.option.jitterThreshold.tooltip": "当绝对坐标超过此数值时开始产生视觉效果 (默认 12,550,821)。"
+}

@@ -1,0 +1,35 @@
+{
+  "text.config.signed32.title": "Signed32 Settings",
+
+  "text.config.signed32.category.border": "World",
+  "text.config.signed32.option.expandWorldBorder": "Expand World Border",
+  "text.config.signed32.option.expandWorldBorder.tooltip": "Removes the vanilla ±30,000,000 border limit and extends it to the signed 32-bit integer range (±2.14 billion).",
+  "text.config.signed32.option.fixChunkOverflow": "Fix Chunk Overflow (33M+ Crash)",
+  "text.config.signed32.option.fixChunkOverflow.tooltip": "Prevents integer overflow when converting chunk coordinates to block coordinates and unlocks valid chunk boundaries beyond vanilla limits.",
+  "text.config.signed32.option.farLandsNoise": "Far Lands Terrain",
+  "text.config.signed32.option.farLandsNoise.tooltip": "Ports Beta 1.7.3 noise overflow to generate towering sky walls and swiss cheese caverns beyond 12.55M.",
+  "text.config.signed32.option.farLandsThreshold": "Far Lands Distance",
+  "text.config.signed32.option.farLandsThreshold.tooltip": "Coordinate threshold where the Far Lands wall begins to generate (Default: 12,550,821).",
+
+  "text.config.signed32.category.pos": "Modify",
+  "text.config.signed32.option.expandBlockPos": "32-Bit BlockPos Hash Storage",
+  "text.config.signed32.option.expandBlockPos.tooltip": "Bypasses the vanilla 64-bit packed long limit (±33.5M blocks) using hash tables for full 32-bit integer coordinates.",
+  "text.config.signed32.option.expandSectionPos": "32-Bit SectionPos Hash Storage",
+  "text.config.signed32.option.expandSectionPos.tooltip": "Removes SectionPos 22-bit packing limitations, enabling section indexing beyond ±2,097,152 sections.",
+  "text.config.signed32.option.expandEntitySections": "Entity Section Storage Optimization",
+  "text.config.signed32.option.expandEntitySections.tooltip": "Restructures entity spatial indexing to align with SectionPos hashing, preventing entity loading drops or crashes in extreme coordinates.",
+
+  "text.config.signed32.category.network": "Network",
+  "text.config.signed32.option.extendedBlockPosProtocol": "Extended BlockPos/Sound Protocol",
+  "text.config.signed32.option.extendedBlockPosProtocol.tooltip": "⚠️ Requires Signed32 on both client and server. Disable this feature when joining standard servers (Purpur/Paper/Vanilla).",
+
+  "text.config.signed32.category.visual": "Visuals",
+  "text.config.signed32.option.cameraJitter": "Camera Jitter",
+  "text.config.signed32.option.cameraJitter.tooltip": "Degrades camera coordinates to 32-bit float, recreating the classic stepwise viewpoint jitter.",
+  "text.config.signed32.option.entityJitter": "Entity Jitter",
+  "text.config.signed32.option.entityJitter.tooltip": "Snaps entity rendering to the single-precision grid, keeping entities in sync with world stutter.",
+  "text.config.signed32.option.blockTearing": "Block Model Tearing",
+  "text.config.signed32.option.blockTearing.tooltip": "Recreates vertex tearing and distortion on non-full block models (e.g. redstone wire, torches, rails).",
+  "text.config.signed32.option.jitterThreshold": "Jitter Threshold",
+  "text.config.signed32.option.jitterThreshold.tooltip": "Absolute coordinate distance where visual effects begin to take effect (Default: 12,550,821)."
+}

@@ -1,0 +1,35 @@
+{
+  "text.config.signed32.title": "Signed32 設定",
+
+  "text.config.signed32.category.border": "世界邊界擴展",
+  "text.config.signed32.option.expandWorldBorder": "解鎖世界邊界 (Expand Border)",
+  "text.config.signed32.option.expandWorldBorder.tooltip": "拆走原版 ±30,000,000 嘅邊界限制，等你可以行到 32-bit 整數極限 (±21.4 億格)。",
+  "text.config.signed32.option.fixChunkOverflow": "修復 33,554,432 區塊崩潰 (Chunk Overflow)",
+  "text.config.signed32.option.fixChunkOverflow.tooltip": "防止 Chunk 座標轉成方塊座標嗰陣爆 32-bit 整數搞到 Crash，並解除原版合法 Chunk 範圍檢查限制。",
+  "text.config.signed32.option.farLandsNoise": "遠方之地地形 (Far Lands)",
+  "text.config.signed32.option.farLandsNoise.tooltip": "移植 Beta 1.7.3 嘅噪聲溢位，喺 1255 萬格之外生成直衝天花板嘅巨牆同穿窿芝士地形。",
+  "text.config.signed32.option.farLandsThreshold": "遠方之地生成距離",
+  "text.config.signed32.option.farLandsThreshold.tooltip": "由呢個座標開始產生 Beta 遠方之地巨牆 (預設 12,550,821 格)。",
+
+  "text.config.signed32.category.pos": "極限座標與儲存 (32-Bit Pos)",
+  "text.config.signed32.option.expandBlockPos": "32-bit 方塊座標 Hash 系統 (BlockPos)",
+  "text.config.signed32.option.expandBlockPos.tooltip": "突破原版 64-bit long 嘅 ±33.5M 方塊壓縮限制，改用記憶體雜湊表儲存極限座標。關閉則還原原生位元運算。",
+  "text.config.signed32.option.expandSectionPos": "32-bit 區段座標 Hash 系統 (SectionPos)",
+  "text.config.signed32.option.expandSectionPos.tooltip": "突破原版 SectionPos 22-bit 壓縮限制，等 33.5M 以外嘅區段能夠正常讀取。",
+  "text.config.signed32.option.expandEntitySections": "實體區段儲存最佳化 (Entity Sections)",
+  "text.config.signed32.option.expandEntitySections.tooltip": "配合區段 Hash 系統重寫實體空間索引，防止遠距離實體丟失或檢索 Crash。",
+
+  "text.config.signed32.category.network": "網路協定相容性",
+  "text.config.signed32.option.extendedBlockPosProtocol": "32-bit 方塊/聲音封包協定 (Network Protocol)",
+  "text.config.signed32.option.extendedBlockPosProtocol.tooltip": "⚠️ 兩端都需要裝咗 Signed32！如果要入普通伺服器 (Purpur/Paper/原版)，請務必【關閉】此項。",
+
+  "text.config.signed32.category.visual": "遠方之地視覺效果",
+  "text.config.signed32.option.cameraJitter": "鏡頭震動 (Camera Jitter)",
+  "text.config.signed32.option.cameraJitter.tooltip": "將攝影機座標降格變做 32-bit float 單精度，還原 Beta 嗰種窒下窒下嘅視角抽筋效果。",
+  "text.config.signed32.option.entityJitter": "生物抽筋 (Entity Jitter)",
+  "text.config.signed32.option.entityJitter.tooltip": "將實體同生物嘅渲染鎖落單精度網格，跟住個世界一齊同步抽筋震動。",
+  "text.config.signed32.option.blockTearing": "模型撕裂穿崩 (Block Tearing)",
+  "text.config.signed32.option.blockTearing.tooltip": "還原紅石線、火把、路軌呢類細過 1 格嘅模型頂點被扯爛、撕裂穿崩嘅經典現象。",
+  "text.config.signed32.option.jitterThreshold": "觸發距離門檻",
+  "text.config.signed32.option.jitterThreshold.tooltip": "當你嘅絕對座標超過呢個數值嗰陣就會開始出現視覺效果 (預設 12,550,821 格)。"
+}
