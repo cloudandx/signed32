@@ -35,7 +35,6 @@ public abstract class F3DisplayMixin {
         return null;
     }
 
-    // 緩存氣候採樣器，避免每幀重複建立造成 GC 停頓
     @Unique
     private Climate.@Nullable Sampler signed32$cachedClimateSampler;
     @Unique
@@ -43,8 +42,18 @@ public abstract class F3DisplayMixin {
 
     @Inject(method = "extractLines", at = @At("HEAD"))
     private void onExtractLines(GuiGraphicsExtractor graphics, List<String> lines, boolean alignLeft, int scaledScreenWidth, CallbackInfo ci) {
-        if (!alignLeft || lines == null) {
+        // 核心防護 1：未開 F3 時 lines 為空，直接返回，絕不閃爍
+        if (!alignLeft || lines == null || lines.isEmpty()) {
             return;
+        }
+
+        // 核心防護 2：防影分身機制！
+        // 若 Sodium / ImmediatelyFast 在同一個畫格內多次抽取，發現已存在則直接退出
+        for (int i = 0; i < lines.size(); i++) {
+            String line = lines.get(i);
+            if (line != null && line.startsWith("Current precision:")) {
+                return;
+            }
         }
 
         Entity camera = this.minecraft.getCameraEntity();
@@ -53,7 +62,7 @@ public abstract class F3DisplayMixin {
         }
 
         // =========================================================================
-        // 1. Current precision: 顯示浮點數精度 (支援單精度接管模式與動態顏色)
+        // 1. Current precision: 顯示浮點數精度
         // =========================================================================
         double maxCoord = Math.max(Math.abs(camera.getX()), Math.abs(camera.getZ()));
         double doublePrec = Math.ulp(maxCoord);
@@ -63,18 +72,16 @@ public abstract class F3DisplayMixin {
                 && maxCoord >= Signed32Config.INSTANCE.jitterThreshold;
 
         String floatColor = signed32$getFloatPrecisionColor(floatPrec);
-        String doubleColor = "§a"; // double 在 21 億內始終保持在 10^-9 級別，保持綠色
+        String doubleColor = "§a";
 
         String precisionLine;
         if (isSinglePrecisionActive) {
-            // 單精度生效中：float 成為主角，並顯示 [32-bit Float] 標籤
-            precisionLine = "Current precision: " + floatColor + floatPrec + "§r §e[32-bit Float]\u00a7r (native double: " + doubleColor + doublePrec + "\u00a7r)";
+            precisionLine = "Current precision: " + floatColor + floatPrec + "§r §e[32-bit Float]§r (native double: " + doubleColor + doublePrec + "§r)";
         } else {
-            // 正常雙精度模式
-            precisionLine = "Current precision: " + doubleColor + doublePrec + "§r (float: " + floatColor + floatPrec + "\u00a7r)";
+            precisionLine = "Current precision: " + doubleColor + doublePrec + "§r (float: " + floatColor + floatPrec + "§r)";
         }
 
-        // 插入在 "Facing:" 這一行的正下方
+        // 尋找插入錨點
         int facingIndex = -1;
         for (int i = 0; i < lines.size(); i++) {
             String line = lines.get(i);
@@ -83,18 +90,22 @@ public abstract class F3DisplayMixin {
                 break;
             }
         }
+
+        int precisionInsertIndex;
         if (facingIndex != -1) {
-            lines.add(facingIndex + 1, precisionLine);
+            precisionInsertIndex = facingIndex + 1;
+            lines.add(precisionInsertIndex, precisionLine);
         } else {
-            lines.add(precisionLine);
+            // 降級位置：插在第 2 行（FPS 下方）
+            precisionInsertIndex = Math.min(2, lines.size());
+            lines.add(precisionInsertIndex, precisionLine);
         }
 
         // =========================================================================
-        // 2. NoiseRouter: 提取氣候採樣器 (T, V, C, E, D, W, PV)
+        // 2. NoiseRouter: 提取氣候採樣器
         // =========================================================================
         String noiseRouterLine = signed32$formatNoiseRouterLine(camera);
         if (noiseRouterLine != null) {
-            // 插入在 "Local Difficulty:" 這一行的正下方
             int difficultyIndex = -1;
             for (int i = 0; i < lines.size(); i++) {
                 String line = lines.get(i);
@@ -103,10 +114,11 @@ public abstract class F3DisplayMixin {
                     break;
                 }
             }
+
             if (difficultyIndex != -1) {
                 lines.add(difficultyIndex + 1, noiseRouterLine);
             } else {
-                lines.add(noiseRouterLine);
+                lines.add(precisionInsertIndex + 1, noiseRouterLine);
             }
         }
     }
@@ -118,28 +130,27 @@ public abstract class F3DisplayMixin {
         if (serverLevel != null && serverLevel.getChunkSource().getGenerator() instanceof NoiseBasedChunkGenerator) {
             try {
                 RandomState randomState = serverLevel.getChunkSource().randomState();
-                
-                // 若 RandomState 改變則更新採樣器，否則重用緩存
+
                 if (this.signed32$cachedRandomState != randomState || this.signed32$cachedClimateSampler == null) {
                     this.signed32$cachedRandomState = randomState;
                     this.signed32$cachedClimateSampler = randomState.createClimateSampler(SamplerContext.EMPTY_UNCACHED);
                 }
 
                 Climate.Sampler sampler = this.signed32$cachedClimateSampler;
+                if (sampler == null) return null;
+
                 BlockPos pos = camera.blockPosition();
                 int x = pos.getX();
                 int y = pos.getY();
                 int z = pos.getZ();
 
-                // 26.3 正確 API：直接從 Bound 取出原生的 float 數值
                 float t = sampler.temperature().sampleValue(x, y, z);
-                float v = sampler.humidity().sampleValue(x, y, z);       // V: Vegetation (對應 Climate 中的 humidity)
-                float c = sampler.continentalness().sampleValue(x, y, z); // C: Continents (對應 Climate 中的 continentalness)
-                float e = sampler.erosion().sampleValue(x, y, z);        // E: Erosion
-                float d = sampler.depth().sampleValue(x, y, z);          // D: Depth
-                float w = sampler.weirdness().sampleValue(x, y, z);      // W: Weirdness / Ridges
+                float v = sampler.humidity().sampleValue(x, y, z);
+                float c = sampler.continentalness().sampleValue(x, y, z);
+                float e = sampler.erosion().sampleValue(x, y, z);
+                float d = sampler.depth().sampleValue(x, y, z);
+                float w = sampler.weirdness().sampleValue(x, y, z);
 
-                // 計算山脊折疊峰谷 (Peaks & Valleys)
                 float pv = -(Math.abs(Math.abs(w) - 0.6666667F) - 0.33333334F) * 3.0F;
 
                 return String.format(
@@ -148,6 +159,7 @@ public abstract class F3DisplayMixin {
                         t, v, c, e, d, w, pv
                 );
             } catch (Throwable ignored) {
+                return null;
             }
         } else if (serverLevel == null) {
             return "NoiseRouter: §7(Multiplayer: Managed by server)§r";
@@ -158,15 +170,15 @@ public abstract class F3DisplayMixin {
     @Unique
     private static String signed32$getFloatPrecisionColor(float floatPrec) {
         if (floatPrec < 0.001F) {
-            return "§a"; // 綠色：微米級誤差，完全平滑
+            return "§a";
         } else if (floatPrec < 0.05F) {
-            return "§e"; // 黃色：像素級微幅抖動
+            return "§e";
         } else if (floatPrec < 0.5F) {
-            return "§6"; // 橘色：顯著階梯式抖動
+            return "§6";
         } else if (floatPrec < 1.0F) {
-            return "§c"; // 紅色：模型嚴重撕裂
+            return "§c";
         } else {
-            return "§c"; // 暗紅粗體：精度徹底崩潰 (>= 1.0 方塊跳步)
+            return "§c";
         }
     }
 }

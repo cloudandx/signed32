@@ -1,11 +1,11 @@
 {
   "text.config.signed32.title": "Signed32 设置",
 
-  "text.config.signed32.category.border": "世界与边界生成",
+  "text.config.signed32.category.world": "世界与边界生成",
   "text.config.signed32.option.expandWorldBorder": "解锁世界边界 (Expand Border)",
   "text.config.signed32.option.expandWorldBorder.tooltip": "解除游戏原版 ±30,000,000 的边界限制，允许玩家与实体移动至 32 位整数极限 (±21.4 亿格)。",
-  "text.config.signed32.option.fixChunkOverflow": "修复 33.5M+ 区块崩溃 (Chunk Overflow)",
-  "text.config.signed32.option.fixChunkOverflow.tooltip": "防止区块坐标转换为方块坐标时发生 32 位整数溢出，并解除原版合法区块范围检查限制。",
+  "text.config.signed32.option.borderLimit": "世界边界极限 (Border Limit)",
+  "text.config.signed32.option.borderLimit.tooltip": "选择世界边界上限阈值 (2^25、2^30 或 2^31)，超出此范围将停止生成区块。",
   "text.config.signed32.option.farLandsNoise": "边境之地地形 (Far Lands)",
   "text.config.signed32.option.farLandsNoise.tooltip": "移植 Beta 1.7.3 的噪声整数溢位，在 1255 万格之外生成直冲天花板的巨墙与乳酪空洞地形。",
   "text.config.signed32.option.farLandsThreshold": "边境之地生成距离",
@@ -13,20 +13,19 @@
   "text.config.signed32.option.fartherLandsThreshold": "遥远之地生成距离 (Farther Lands)",
   "text.config.signed32.option.fartherLandsThreshold.tooltip": "从此坐标开始触发选择器噪声溢位，生成巨大实心条带与虚空裂隙 (默认 1,004,065,920)。",
 
-
-  "text.config.signed32.category.pos": "极限坐标与存储系统",
+  "text.config.signed32.category.fixes": "系统修复与兼容性",
+  "text.config.signed32.option.fixChunkOverflow": "修复 33.5M+ 区块崩溃 (Chunk Overflow)",
+  "text.config.signed32.option.fixChunkOverflow.tooltip": "防止区块坐标转换为方块坐标时发生 32 位整数溢出，并解除原版合法区块范围检查限制。",
   "text.config.signed32.option.expandBlockPos": "32 位方块坐标哈希系统 (BlockPos)",
   "text.config.signed32.option.expandBlockPos.tooltip": "突破原版 64 位 long 的 ±33.5M 方块压缩限制，改用内存哈希缓存存储全范围整数坐标。",
   "text.config.signed32.option.expandSectionPos": "32 位区段坐标哈希系统 (SectionPos)",
   "text.config.signed32.option.expandSectionPos.tooltip": "突破原版 SectionPos 的 22 位压缩限制，使超过 33.5M 的区段数据能够正常寻址与加载。",
   "text.config.signed32.option.expandEntitySections": "实体区段存储优化 (Entity Sections)",
   "text.config.signed32.option.expandEntitySections.tooltip": "配合区段哈希架构重构实体查找索引，防止远距离实体丢失或检索时发生崩溃。",
-
-  "text.config.signed32.category.network": "网络协议与兼容性",
   "text.config.signed32.option.extendedBlockPosProtocol": "32 位自定义网络协议 (Extended Protocol)",
   "text.config.signed32.option.extendedBlockPosProtocol.tooltip": "⚠️ 两端皆须安装此模组！若要加入常规服务器 (Paper/Purpur/原版)，请务必【关闭】此项。",
 
-  "text.config.signed32.category.visual": "视觉特性",
+  "text.config.signed32.category.visual": "远方视觉特性",
   "text.config.signed32.option.cameraJitter": "视角阶梯抖动 (Camera Jitter)",
   "text.config.signed32.option.cameraJitter.tooltip": "将摄像机坐标降级为单精度浮点数 (float)，重现经典的阶梯式视角抽搐。",
   "text.config.signed32.option.entityJitter": "生物渲染抖动 (Entity Jitter)",

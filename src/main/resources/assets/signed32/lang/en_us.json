@@ -1,11 +1,11 @@
 {
   "text.config.signed32.title": "Signed32 Settings",
 
-  "text.config.signed32.category.border": "World & Generation",
+  "text.config.signed32.category.world": "World & Generation",
   "text.config.signed32.option.expandWorldBorder": "Expand World Border",
   "text.config.signed32.option.expandWorldBorder.tooltip": "Removes the vanilla ±30,000,000 border limit and extends world bounds to the 32-bit integer range (±2,147,483,647).",
-  "text.config.signed32.option.fixChunkOverflow": "Fix 33.5M+ Chunk Crash",
-  "text.config.signed32.option.fixChunkOverflow.tooltip": "Prevents integer overflow during chunk-to-block coordinate conversions and removes vanilla chunk boundary clamps.",
+  "text.config.signed32.option.borderLimit": "Border Coordinate Limit",
+  "text.config.signed32.option.borderLimit.tooltip": "Configures boundary limit (2^25, 2^30, or 2^31); chunk generation ceases beyond this threshold.",
   "text.config.signed32.option.farLandsNoise": "Beta Far Lands Terrain",
   "text.config.signed32.option.farLandsNoise.tooltip": "Ports Beta 1.7.3 noise integer overflow to generate towering sky-high walls and swiss cheese caverns.",
   "text.config.signed32.option.farLandsThreshold": "Far Lands Generation Distance",
@@ -13,15 +13,15 @@
   "text.config.signed32.option.fartherLandsThreshold": "Farther Lands Distance",
   "text.config.signed32.option.fartherLandsThreshold.tooltip": "Coordinate threshold where the Farther Lands (Selector Noise overflow) begins to generate (Default: 1,004,065,920).",
 
-  "text.config.signed32.category.pos": "Coordinates & Storage",
+  "text.config.signed32.category.fixes": "Fixes & Compatibility",
+  "text.config.signed32.option.fixChunkOverflow": "Fix 33.5M+ Chunk Crash",
+  "text.config.signed32.option.fixChunkOverflow.tooltip": "Prevents integer overflow during chunk-to-block coordinate conversions and removes vanilla chunk boundary clamps.",
   "text.config.signed32.option.expandBlockPos": "32-Bit BlockPos Hash Storage",
   "text.config.signed32.option.expandBlockPos.tooltip": "Bypasses the vanilla 64-bit packed long limit (±33.5M blocks) using hash tables for full 32-bit integer coordinates.",
   "text.config.signed32.option.expandSectionPos": "32-Bit SectionPos Hash Storage",
   "text.config.signed32.option.expandSectionPos.tooltip": "Removes SectionPos 22-bit packing limitations, enabling section indexing beyond ±2,097,152 sections.",
   "text.config.signed32.option.expandEntitySections": "Entity Section Storage Optimization",
   "text.config.signed32.option.expandEntitySections.tooltip": "Restructures entity spatial indexing using hash tables, preventing entity drops or crashes at extreme distances.",
-
-  "text.config.signed32.category.network": "Network & Compatibility",
   "text.config.signed32.option.extendedBlockPosProtocol": "32-Bit Custom Network Protocol",
   "text.config.signed32.option.extendedBlockPosProtocol.tooltip": "⚠️ Requires Signed32 on BOTH client and server. Disable this when connecting to standard servers (Paper/Purpur/Vanilla).",
 

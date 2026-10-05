@@ -8,55 +8,31 @@ import org.cloudandx.signed32.config.Signed32Config;
 import org.cloudandx.signed32.util.hash.HashMath;
 import org.cloudandx.signed32.util.maps.Common;
 import org.cloudandx.signed32.util.maps.SectionUtil;
-import org.cloudandx.signed32.util.pos.IntBlockPos;
 import org.cloudandx.signed32.util.pos.IntSectionPos;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Overwrite;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 
 @Mixin(SectionPos.class)
 public abstract class SectionPosMixin {
 
-    @Shadow
-    public abstract int x();
-    @Shadow
-    public abstract int y();
-    @Shadow
-    public abstract int z();
+    @Shadow public abstract int x();
+    @Shadow public abstract int y();
+    @Shadow public abstract int z();
+    @Shadow public static int sectionRelativeX(short packed) { return 0; }
+    @Shadow public static int sectionRelativeY(short packed) { return 0; }
+    @Shadow public static int sectionRelativeZ(short packed) { return 0; }
 
-    @Shadow
-    public static int sectionRelativeX(short packed) {
-        return 0;
-    }
-    @Shadow
-    public static int sectionRelativeY(short packed) {
-        return 0;
-    }
-    @Shadow
-    public static int sectionRelativeZ(short packed) {
-        return 0;
+    @Unique
+    private static boolean signed32$isVanillaSection(int x, int y, int z) {
+        return x >= -2097152 && x <= 2097151
+                && z >= -2097152 && z <= 2097151
+                && y >= -524288 && y <= 524287;
     }
 
-    @Overwrite
-    public long asLong() {
-        if (Signed32Config.INSTANCE.expandSectionPos) {
-            int x = this.x();
-            int y = this.y();
-            int z = this.z();
-            long key = HashMath.hash(x, y, z);
-            SectionUtil.put(key, x, y, z);
-            return key;
-        }
-        return asLong(this.x(), this.y(), this.z());
-    }
-
-    @Overwrite
-    public static long asLong(int x, int y, int z) {
-        if (Signed32Config.INSTANCE.expandSectionPos) {
-            long key = HashMath.hash(x, y, z);
-            SectionUtil.put(key, x, y, z);
-            return key;
-        }
+    @Unique
+    private static long signed32$packVanilla(int x, int y, int z) {
         long l = 0L;
         l |= ((long) x & 4194303L) << 42;
         l |= ((long) y & 1048575L);
@@ -64,8 +40,35 @@ public abstract class SectionPosMixin {
     }
 
     @Overwrite
-    public static int x(long packed) {
+    public long asLong() {
+        int x = this.x();
+        int y = this.y();
+        int z = this.z();
         if (Signed32Config.INSTANCE.expandSectionPos) {
+            if (!signed32$isVanillaSection(x, y, z)) {
+                long key = HashMath.hash(x, y, z);
+                SectionUtil.put(key, x, y, z);
+                return key;
+            }
+        }
+        return signed32$packVanilla(x, y, z);
+    }
+
+    @Overwrite
+    public static long asLong(int x, int y, int z) {
+        if (Signed32Config.INSTANCE.expandSectionPos) {
+            if (!signed32$isVanillaSection(x, y, z)) {
+                long key = HashMath.hash(x, y, z);
+                SectionUtil.put(key, x, y, z);
+                return key;
+            }
+        }
+        return signed32$packVanilla(x, y, z);
+    }
+
+    @Overwrite
+    public static int x(long packed) {
+        if (Signed32Config.INSTANCE.expandSectionPos && !SectionUtil.isEmpty()) {
             IntSectionPos p = SectionUtil.get(packed);
             if (p != null) {
                 p.lastAccess = Common.getTick();
@@ -77,7 +80,7 @@ public abstract class SectionPosMixin {
 
     @Overwrite
     public static int y(long packed) {
-        if (Signed32Config.INSTANCE.expandSectionPos) {
+        if (Signed32Config.INSTANCE.expandSectionPos && !SectionUtil.isEmpty()) {
             IntSectionPos p = SectionUtil.get(packed);
             if (p != null) {
                 p.lastAccess = Common.getTick();
@@ -89,7 +92,7 @@ public abstract class SectionPosMixin {
 
     @Overwrite
     public static int z(long packed) {
-        if (Signed32Config.INSTANCE.expandSectionPos) {
+        if (Signed32Config.INSTANCE.expandSectionPos && !SectionUtil.isEmpty()) {
             IntSectionPos p = SectionUtil.get(packed);
             if (p != null) {
                 p.lastAccess = Common.getTick();
@@ -101,9 +104,11 @@ public abstract class SectionPosMixin {
 
     @Overwrite
     public static SectionPos of(long packed) {
-        if (Signed32Config.INSTANCE.expandSectionPos) {
-            IntSectionPos p = IntSectionPos.getSectionPos(packed);
-            return SectionPos.of(p.x, p.y, p.z);
+        if (Signed32Config.INSTANCE.expandSectionPos && !SectionUtil.isEmpty()) {
+            IntSectionPos p = SectionUtil.get(packed);
+            if (p != null) {
+                return SectionPos.of(p.x, p.y, p.z);
+            }
         }
         return SectionPos.of(x(packed), y(packed), z(packed));
     }
@@ -115,48 +120,60 @@ public abstract class SectionPosMixin {
 
     @Overwrite
     public static long offset(long packed, int dx, int dy, int dz) {
+        if (dx == 0 && dy == 0 && dz == 0) return packed;
+
         if (Signed32Config.INSTANCE.expandSectionPos) {
-            IntSectionPos p = IntSectionPos.getSectionPos(packed);
-            int nx = p.x + dx, ny = p.y + dy, nz = p.z + dz;
+            if (!SectionUtil.isEmpty()) {
+                IntSectionPos p = SectionUtil.get(packed);
+                if (p != null) {
+                    int nx = p.x + dx, ny = p.y + dy, nz = p.z + dz;
+                    if (signed32$isVanillaSection(nx, ny, nz)) {
+                        return signed32$packVanilla(nx, ny, nz);
+                    }
+                    long key = HashMath.hash(nx, ny, nz);
+                    SectionUtil.put(key, nx, ny, nz);
+                    return key;
+                }
+            }
+
+            int nx = x(packed) + dx;
+            int ny = y(packed) + dy;
+            int nz = z(packed) + dz;
+            if (signed32$isVanillaSection(nx, ny, nz)) {
+                return signed32$packVanilla(nx, ny, nz);
+            }
             long key = HashMath.hash(nx, ny, nz);
             SectionUtil.put(key, nx, ny, nz);
             return key;
         }
-        return dx == 0 && dy == 0 && dz == 0 ? packed : asLong(x(packed) + dx, y(packed) + dy, z(packed) + dz);
+
+        return signed32$packVanilla(x(packed) + dx, y(packed) + dy, z(packed) + dz);
     }
 
     @Overwrite
     public static long blockToSection(long levelPos) {
-        if (Signed32Config.INSTANCE.expandSectionPos) {
-            IntBlockPos bp = IntBlockPos.getBlockPos(levelPos);
-            int sx = bp.x >> 4, sy = bp.y >> 4, sz = bp.z >> 4;
-            long key = HashMath.hash(sx, sy, sz);
-            SectionUtil.put(key, sx, sy, sz);
-            return key;
-        }
-        return asLong(SectionPos.blockToSectionCoord(BlockPos.getX(levelPos)),
-                SectionPos.blockToSectionCoord(BlockPos.getY(levelPos)),
-                SectionPos.blockToSectionCoord(BlockPos.getZ(levelPos)));
+        int bx = BlockPos.getX(levelPos);
+        int by = BlockPos.getY(levelPos);
+        int bz = BlockPos.getZ(levelPos);
+        int sx = SectionPos.blockToSectionCoord(bx);
+        int sy = SectionPos.blockToSectionCoord(by);
+        int sz = SectionPos.blockToSectionCoord(bz);
+        return asLong(sx, sy, sz);
     }
 
     @Overwrite
     public static long getZeroNode(long packed) {
-        if (Signed32Config.INSTANCE.expandSectionPos) {
-            IntSectionPos p = IntSectionPos.getSectionPos(packed);
-            long key = HashMath.hash(p.x, 0, p.z);
-            SectionUtil.put(key, p.x, 0, p.z);
-            return key;
+        if (Signed32Config.INSTANCE.expandSectionPos && !SectionUtil.isEmpty()) {
+            IntSectionPos p = SectionUtil.get(packed);
+            if (p != null) {
+                return asLong(p.x, 0, p.z);
+            }
         }
         return packed & -1048576L;
     }
 
     @Overwrite
     public static long getZeroNode(int x, int z) {
-        if (Signed32Config.INSTANCE.expandSectionPos) {
-            long key = HashMath.hash(x, 0, z);
-            SectionUtil.put(key, x, 0, z);
-            return key;
-        }
         return asLong(x, 0, z);
     }
 
@@ -185,11 +202,9 @@ public abstract class SectionPosMixin {
 
     @Overwrite
     public static void aroundAndAtBlockPos(long pos, LongConsumer consumer) {
-        if (Signed32Config.INSTANCE.expandSectionPos) {
-            IntBlockPos bp = IntBlockPos.getBlockPos(pos);
-            SectionPos.aroundAndAtBlockPos(new BlockPos(bp.x, bp.y, bp.z), consumer);
-        } else {
-            SectionPos.aroundAndAtBlockPos(BlockPos.of(pos), consumer);
-        }
+        int bx = BlockPos.getX(pos);
+        int by = BlockPos.getY(pos);
+        int bz = BlockPos.getZ(pos);
+        SectionPos.aroundAndAtBlockPos(new BlockPos(bx, by, bz), consumer);
     }
 }

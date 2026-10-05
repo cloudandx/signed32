@@ -19,11 +19,11 @@ public class Signed32ConfigScreen {
         builder.setSavingRunnable(Signed32Config::save);
         ConfigEntryBuilder entryBuilder = builder.entryBuilder();
 
-        // -------------------------------------------------------------
-        // 分類 1：世界與邊界生成 (World & Generation)
-        // -------------------------------------------------------------
+        // =============================================================
+        // 分類 1：世界 (World)
+        // =============================================================
         ConfigCategory worldCategory = builder.getOrCreateCategory(
-                Component.translatable("text.config.signed32.category.border"));
+                Component.translatable("text.config.signed32.category.world"));
 
         worldCategory.addEntry(entryBuilder.startBooleanToggle(
                         Component.translatable("text.config.signed32.option.expandWorldBorder"),
@@ -34,14 +34,6 @@ public class Signed32ConfigScreen {
                 .build());
 
         worldCategory.addEntry(entryBuilder.startBooleanToggle(
-                        Component.translatable("text.config.signed32.option.fixChunkOverflow"),
-                        config.fixChunkOverflow)
-                .setDefaultValue(true)
-                .setTooltip(Component.translatable("text.config.signed32.option.fixChunkOverflow.tooltip"))
-                .setSaveConsumer(val -> config.fixChunkOverflow = val)
-                .build());
-
-        worldCategory.addEntry(entryBuilder.startBooleanToggle(
                         Component.translatable("text.config.signed32.option.farLandsNoise"),
                         config.farLandsNoise)
                 .setDefaultValue(true)
@@ -49,7 +41,6 @@ public class Signed32ConfigScreen {
                 .setSaveConsumer(val -> config.farLandsNoise = val)
                 .build());
 
-        // 1. 邊境之地生成距離
         worldCategory.addEntry(entryBuilder.startIntField(
                         Component.translatable("text.config.signed32.option.farLandsThreshold"),
                         config.farLandsThreshold)
@@ -60,7 +51,6 @@ public class Signed32ConfigScreen {
                 .setSaveConsumer(val -> config.farLandsThreshold = val)
                 .build());
 
-        // 2. 遙遠之地生成距離
         worldCategory.addEntry(entryBuilder.startIntField(
                         Component.translatable("text.config.signed32.option.fartherLandsThreshold"),
                         config.fartherLandsThreshold)
@@ -72,13 +62,21 @@ public class Signed32ConfigScreen {
                 .build());
 
 
-        // -------------------------------------------------------------
-        // 分類 2：極限座標與儲存 (Coordinates & Storage)
-        // -------------------------------------------------------------
-        ConfigCategory posCategory = builder.getOrCreateCategory(
-                Component.translatable("text.config.signed32.category.pos"));
+        // =============================================================
+        // 分類 2：修復 (Fixes)
+        // =============================================================
+        ConfigCategory fixesCategory = builder.getOrCreateCategory(
+                Component.translatable("text.config.signed32.category.fixes"));
 
-        posCategory.addEntry(entryBuilder.startBooleanToggle(
+        fixesCategory.addEntry(entryBuilder.startBooleanToggle(
+                        Component.translatable("text.config.signed32.option.fixChunkOverflow"),
+                        config.fixChunkOverflow)
+                .setDefaultValue(true)
+                .setTooltip(Component.translatable("text.config.signed32.option.fixChunkOverflow.tooltip"))
+                .setSaveConsumer(val -> config.fixChunkOverflow = val)
+                .build());
+
+        fixesCategory.addEntry(entryBuilder.startBooleanToggle(
                         Component.translatable("text.config.signed32.option.expandBlockPos"),
                         config.expandBlockPos)
                 .setDefaultValue(true)
@@ -86,7 +84,7 @@ public class Signed32ConfigScreen {
                 .setSaveConsumer(val -> config.expandBlockPos = val)
                 .build());
 
-        posCategory.addEntry(entryBuilder.startBooleanToggle(
+        fixesCategory.addEntry(entryBuilder.startBooleanToggle(
                         Component.translatable("text.config.signed32.option.expandSectionPos"),
                         config.expandSectionPos)
                 .setDefaultValue(true)
@@ -94,7 +92,7 @@ public class Signed32ConfigScreen {
                 .setSaveConsumer(val -> config.expandSectionPos = val)
                 .build());
 
-        posCategory.addEntry(entryBuilder.startBooleanToggle(
+        fixesCategory.addEntry(entryBuilder.startBooleanToggle(
                         Component.translatable("text.config.signed32.option.expandEntitySections"),
                         config.expandEntitySections)
                 .setDefaultValue(true)
@@ -102,13 +100,7 @@ public class Signed32ConfigScreen {
                 .setSaveConsumer(val -> config.expandEntitySections = val)
                 .build());
 
-        // -------------------------------------------------------------
-        // 分類 3：網路協定與相容性 (Network & Compatibility)
-        // -------------------------------------------------------------
-        ConfigCategory networkCategory = builder.getOrCreateCategory(
-                Component.translatable("text.config.signed32.category.network"));
-
-        networkCategory.addEntry(entryBuilder.startBooleanToggle(
+        fixesCategory.addEntry(entryBuilder.startBooleanToggle(
                         Component.translatable("text.config.signed32.option.extendedBlockPosProtocol"),
                         config.extendedBlockPosProtocol)
                 .setDefaultValue(false)
@@ -116,9 +108,10 @@ public class Signed32ConfigScreen {
                 .setSaveConsumer(val -> config.extendedBlockPosProtocol = val)
                 .build());
 
-        // -------------------------------------------------------------
-        // 分類 4：遠方之地視覺效果 (Visual Artifacts)
-        // -------------------------------------------------------------
+
+        // =============================================================
+        // 分類 3：視覺 (Visuals)
+        // =============================================================
         ConfigCategory visualCategory = builder.getOrCreateCategory(
                 Component.translatable("text.config.signed32.category.visual"));
 

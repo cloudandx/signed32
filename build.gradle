@@ -94,4 +94,13 @@ publishing {
     }
     repositories {
     }
+
+    loom {
+        runs {
+            client {
+                vmArgs "-Xmx6G", "-Xms2G"
+            }
+        }
+    }
+
 }

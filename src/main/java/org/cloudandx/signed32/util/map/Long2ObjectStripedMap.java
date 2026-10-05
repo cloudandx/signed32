@@ -2,13 +2,11 @@ package org.cloudandx.signed32.util.map;
 
 import it.unimi.dsi.fastutil.longs.Long2ObjectOpenHashMap;
 
+import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.StampedLock;
 import java.util.function.LongFunction;
 import java.util.function.Predicate;
 
-/**
- * 無裝箱分段 map：fastutil Long2ObjectOpenHashMap × 256 段 + StampedLock。
- */
 public final class Long2ObjectStripedMap<V> {
 
     private static final int SEG_BITS = 8;
@@ -17,6 +15,8 @@ public final class Long2ObjectStripedMap<V> {
 
     private final Long2ObjectOpenHashMap<V>[] segments;
     private final StampedLock[] locks;
+    // 使用原子計數器，查詢大小與空值完全零鎖
+    private final AtomicInteger totalSize = new AtomicInteger(0);
 
     @SuppressWarnings("unchecked")
     public Long2ObjectStripedMap(int expectedCapacity) {
@@ -65,18 +65,11 @@ public final class Long2ObjectStripedMap<V> {
         StampedLock l = locks[s];
         long stamp = l.writeLock();
         try {
-            return segments[s].put(key, val);
-        } finally {
-            l.unlockWrite(stamp);
-        }
-    }
-
-    public V remove(long key) {
-        int s = seg(key);
-        StampedLock l = locks[s];
-        long stamp = l.writeLock();
-        try {
-            return segments[s].remove(key);
+            V prev = segments[s].put(key, val);
+            if (prev == null) {
+                totalSize.incrementAndGet();
+            }
+            return prev;
         } finally {
             l.unlockWrite(stamp);
         }
@@ -87,7 +80,26 @@ public final class Long2ObjectStripedMap<V> {
         StampedLock l = locks[s];
         long stamp = l.writeLock();
         try {
-            return segments[s].putIfAbsent(key, val);
+            V prev = segments[s].putIfAbsent(key, val);
+            if (prev == null) {
+                totalSize.incrementAndGet();
+            }
+            return prev;
+        } finally {
+            l.unlockWrite(stamp);
+        }
+    }
+
+    public V remove(long key) {
+        int s = seg(key);
+        StampedLock l = locks[s];
+        long stamp = l.writeLock();
+        try {
+            V prev = segments[s].remove(key);
+            if (prev != null) {
+                totalSize.decrementAndGet();
+            }
+            return prev;
         } finally {
             l.unlockWrite(stamp);
         }
@@ -103,6 +115,7 @@ public final class Long2ObjectStripedMap<V> {
             if (v == null) {
                 v = mapping.apply(key);
                 m.put(key, v);
+                totalSize.incrementAndGet();
             }
             return v;
         } finally {
@@ -131,6 +144,7 @@ public final class Long2ObjectStripedMap<V> {
                 l.unlockWrite(stamp);
             }
         }
+        recalculateSize();
     }
 
     public void clear() {
@@ -143,34 +157,29 @@ public final class Long2ObjectStripedMap<V> {
                 l.unlockWrite(stamp);
             }
         }
+        totalSize.set(0);
+    }
+
+    private void recalculateSize() {
+        int count = 0;
+        for (int i = 0; i < SEG_COUNT; i++) {
+            StampedLock l = locks[i];
+            long stamp = l.readLock();
+            try {
+                count += segments[i].size();
+            } finally {
+                l.unlockRead(stamp);
+            }
+        }
+        totalSize.set(count);
+    }
+
+    // 核心優化：零鎖、即時回傳
+    public boolean isEmpty() {
+        return totalSize.get() == 0;
     }
 
     public int size() {
-        int n = 0;
-        for (int i = 0; i < SEG_COUNT; i++) {
-            StampedLock l = locks[i];
-            long stamp = l.readLock();
-            try {
-                n += segments[i].size();
-            } finally {
-                l.unlockRead(stamp);
-            }
-        }
-        return n;
-    }
-
-    public boolean isEmpty() {
-        for (int i = 0; i < SEG_COUNT; i++) {
-            StampedLock l = locks[i];
-            long stamp = l.readLock();
-            try {
-                if (!segments[i].isEmpty()) {
-                    return false;
-                }
-            } finally {
-                l.unlockRead(stamp);
-            }
-        }
-        return true;
+        return totalSize.get();
     }
 }

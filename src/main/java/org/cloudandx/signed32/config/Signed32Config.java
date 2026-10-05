@@ -15,24 +15,26 @@ public class Signed32Config {
 
     public static Signed32Config INSTANCE = new Signed32Config();
 
-    // === 分類 1：世界與邊界生成 (World & Generation) ===
+    // =============================================================
+    // 分類 1：世界與邊界生成 (World & Generation)
+    // =============================================================
     public boolean expandWorldBorder = true;
-    public boolean fixChunkOverflow = true;
     public boolean farLandsNoise = true;
-
-    // 雙階段門檻
     public int farLandsThreshold = 12550821;              // 邊境之地門檻 (預設 1255 萬)
     public int fartherLandsThreshold = 1004065920;        // 遙遠之地門檻 (預設 10.04 億)
 
-    // === 分類 2：極限座標與儲存 (Coordinates & Storage) ===
+    // =============================================================
+    // 分類 2：系統修復與相容性 (Fixes & Compatibility)
+    // =============================================================
+    public boolean fixChunkOverflow = true;
     public boolean expandBlockPos = true;
     public boolean expandSectionPos = true;
     public boolean expandEntitySections = true;
-
-    // === 分類 3：網路協定與相容性 (Network & Compatibility) ===
     public boolean extendedBlockPosProtocol = false;
 
-    // === 分類 4：遠方之地視覺效果 (Visual Artifacts) ===
+    // =============================================================
+    // 分類 3：遠方視覺特性 (Visual Artifacts)
+    // =============================================================
     public boolean cameraJitter = false;
     public boolean entityJitter = false;
     public boolean blockTearing = false;
